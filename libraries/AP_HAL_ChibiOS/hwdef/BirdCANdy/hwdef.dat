@@ -2,7 +2,7 @@
 # MCU class and specific type
 
 # MCU class and specific type
-MCU STM32F4xx STM32F412CE
+MCU STM32F4xx STM32F412Cx
 
 # bootloader starts firmware at 64k
 FLASH_RESERVE_START_KB 64
@@ -11,9 +11,9 @@ FLASH_RESERVE_START_KB 64
 define STORAGE_FLASH_PAGE 2
 define HAL_STORAGE_SIZE 8192
 
-# ??? assume this number is ok since it is not assigned to any other board
+# ??? Tools/scripts/uploader.py
 # board ID for firmware load
-APJ_BOARD_ID 1237
+APJ_BOARD_ID 1001
 
 # setup build for a peripheral firmware
 env AP_PERIPH 1
@@ -97,7 +97,7 @@ BARO BMP388 I2C:0:0x76
 # CANdy pin 13
 # PWM output for buzzer
 # ??? what is GPIO(77) ?
-PB5 TIM3_CH2 TIM2 GPIO(77) LOW ALARM
+PB5 TIM3_CH2 TIM3 GPIO(77) LOW ALARM
 
 # CANdy pin 12
 # safety LED, active low
@@ -136,7 +136,7 @@ define HAL_DISABLE_LOOP_DELAY
 PB8 CAN1_RX CAN1
 PB9 CAN1_TX CAN1
 # ??? do we need this functionality for anything?
-PB5 GPIO_CAN1_SILENT OUTPUT PUSHPULL SPEED_LOW LOW
+# PB5 GPIO_CAN1_SILENT OUTPUT PUSHPULL SPEED_LOW LOW
 
 
 

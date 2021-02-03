@@ -1,12 +1,13 @@
 # hw definition file for processing by chibios_pins.py
 
 # MCU class and specific type
-MCU STM32F4xx STM32F412CE
+MCU STM32F4xx STM32F41Cx
 
 FLASH_RESERVE_START_KB 0
 # two sectors for bootloader, two for storage
 FLASH_BOOTLOADER_LOAD_KB 64
 
+# ??? Tools/scripts/uploader.py
 # board ID for firmware load
 APJ_BOARD_ID 1001
 
