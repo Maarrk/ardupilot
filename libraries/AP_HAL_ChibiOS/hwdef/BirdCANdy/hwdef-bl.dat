@@ -1,7 +1,7 @@
 # hw definition file for processing by chibios_pins.py
 
 # MCU class and specific type
-MCU STM32F4xx STM32F412Rx
+MCU STM32F4xx STM32F412Cx
 
 FLASH_RESERVE_START_KB 0
 # two sectors for bootloader, two for storage
@@ -16,10 +16,11 @@ env AP_PERIPH 1
 # crystal frequency
 OSCILLATOR_HZ 16000000
 
+# ??? don't know what is that, since crystal unchanged leaving as is
 define CH_CFG_ST_FREQUENCY 1000000
 
-# assume 512k flash part
-FLASH_SIZE_KB 512
+# Used STM32F412xE has 1MB flash
+FLASH_SIZE_KB 1024
 
 STDOUT_SERIAL SD1
 STDOUT_BAUDRATE 57600
@@ -28,19 +29,23 @@ STDOUT_BAUDRATE 57600
 SERIAL_ORDER
 
 # use safety button to stay in bootloader
-PB3 STAY_IN_BOOTLOADER INPUT PULLDOWN
+# CANdy pin 19 - used for direct SPI, and is near GND so seems ok
+PA5 STAY_IN_BOOTLOADER INPUT PULLDOWN
 define HAL_STAY_IN_BOOTLOADER_VALUE 1
 
-PB12 LED_BOOTLOADER OUTPUT LOW
+# CANdy pin 18 - next to bootloader input
+PA6 LED_BOOTLOADER OUTPUT LOW
 define HAL_LED_ON 1
 
+# CANdy pins 10, 11
 # USART1
-PB6 USART1_TX USART1
-PB7 USART1_RX USART1
+PA15 USART1_TX USART1
+PB3 USART1_RX USART1
 
-# USART2
-PA2 USART2_TX USART2
-PA3 USART2_RX USART2
+# CANdy pins 15, 16
+# USART6
+PA11 USART6_TX USART6
+PA12 USART6_RX USART6
 
 # SWD debugging
 PA13 JTMS-SWDIO SWD
@@ -49,8 +54,11 @@ PA14 JTCK-SWCLK SWD
 define HAL_USE_SERIAL TRUE
 
 define STM32_SERIAL_USE_USART1 TRUE
-define STM32_SERIAL_USE_USART2 TRUE
+define STM32_SERIAL_USE_USART2 FALSE
 define STM32_SERIAL_USE_USART3 FALSE
+define STM32_SERIAL_USE_USART4 FALSE
+define STM32_SERIAL_USE_USART5 FALSE
+define STM32_SERIAL_USE_USART6 TRUE
 
 define HAL_NO_GPIO_IRQ
 define HAL_USE_EMPTY_IO TRUE
@@ -74,11 +82,12 @@ define HAL_STORAGE_SIZE 16384
 # enable CAN support
 PB8 CAN1_RX CAN1
 PB9 CAN1_TX CAN1
+# ??? do we need this functionality for anything?
 PB5 GPIO_CAN1_SILENT OUTPUT PUSHPULL SPEED_LOW LOW
 define HAL_USE_CAN TRUE
 define STM32_CAN_USE_CAN1 TRUE
 
-define CAN_APP_NODE_NAME "org.ardupilot.cuav_gps"
+define CAN_APP_NODE_NAME "org.ardupilot.birdcandy"
 
 # use DNA
 define HAL_CAN_DEFAULT_NODE_ID 0
@@ -92,6 +101,7 @@ define HAL_BOOTLOADER_TIMEOUT 1000
 # reserve 256 bytes for comms between app and bootloader
 RAM_RESERVE_START 256
 
+# Temporarily no SPI support
 # Add CS pins to ensure they are high in bootloader
-PA4 MAG_CS CS
-PA10 MS5611_CS CS
+# PA4 MAG_CS CS
+# PA10 MS5611_CS CS
