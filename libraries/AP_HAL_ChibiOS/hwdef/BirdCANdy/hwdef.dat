@@ -11,9 +11,8 @@ FLASH_RESERVE_START_KB 64
 define STORAGE_FLASH_PAGE 2
 define HAL_STORAGE_SIZE 8192
 
-# ??? Tools/scripts/uploader.py
 # board ID for firmware load
-APJ_BOARD_ID 1001
+APJ_BOARD_ID 1040
 
 # setup build for a peripheral firmware
 env AP_PERIPH 1
@@ -30,54 +29,23 @@ define CH_CFG_ST_FREQUENCY 1000000
 
 FLASH_SIZE_KB 512
 
-# using pins 10,11 for RCOUT
-# STDOUT_SERIAL SD1
-# STDOUT_BAUDRATE 57600
-
-# ??? maybe the used uart should be undefined in bootloader
 # order of UARTs
 SERIAL_ORDER EMPTY EMPTY EMPTY EMPTY EMPTY USART6
 
 # ------ RCOUT pins ------
 
-# when using CANdy pins 9, 14 on TIM5, got error:
-# "ST requires TIM5 but the timer is already used"
-
-# have level converter
 PA15 TIM2_CH1  TIM2 PWM(1) GPIO(50)
 PB3  TIM2_CH2  TIM2 PWM(2) GPIO(51)
 PB4  TIM3_CH1  TIM3 PWM(3) GPIO(52)
 PB5  TIM3_CH2  TIM3 PWM(4) GPIO(53)
-# PA0  TIM5_CH1  TIM5 PWM(5) GPIO(54)
 
 # ------ alternate functions for RCOUT pins ------
-
-# CANdy pin 14
-# a LED to flash
-# PA1 LED OUTPUT LOW
 
 # CANdy pins 10, 11
 # USART1 for debug
 # PA15 USART1_TX USART1
 # PB3 USART1_RX USART1
 # define HAL_SERIAL0_BAUD_DEFAULT 57600
-
-# CANdy pin 13
-# PWM output for buzzer
-# ??? what is GPIO(77) ?
-# PB5 TIM3_CH2 TIM3 GPIO(77) LOW ALARM
-
-# CANdy pin 12
-# safety LED, active low
-# PB4 SAFE_LED OUTPUT HIGH
-# define SAFE_LED_ON 0
-
-# CANdy pin 9
-# safety button
-# PA0 SAFE_BUTTON INPUT PULLDOWN
-
-# WS2812 LED
-# PB0 TIM3_CH3 TIM3 PWM(1)
 
 # ------ end RCOUT pins ------
 
@@ -91,7 +59,6 @@ PA13 JTMS-SWDIO SWD
 PA14 JTCK-SWCLK SWD
 
 # CANdy pins 21, 22
-# only one I2C bus in normal config
 PB7 I2C1_SDA I2C1
 PB6 I2C1_SCL I2C1
 
@@ -104,28 +71,6 @@ define HAL_I2C_INTERNAL_MASK 0
 
 # only one I2C bus
 I2C_ORDER I2C1
-
-# temporarily disable SPI
-# only one SPI bus in normal config
-# PA5 SPI1_SCK SPI1
-# PA6 SPI1_MISO SPI1
-# PA7 SPI1_MOSI SPI1
-
-# SPI CS
-# PA4 MAG_CS CS
-# PA10 MS5611_CS CS
-
-# SPI devices
-# SPIDEV rm3100 SPI1 DEVID1    MAG_CS MODE0  1*MHZ  1*MHZ
-# SPIDEV ms5611 SPI1 DEVID2 MS5611_CS MODE3 20*MHZ 20*MHZ
-
-# compass
-COMPASS IST8310 I2C:0:0x0E false ROTATION_ROLL_180_YAW_90
-# COMPASS RM3100 SPI:rm3100 false ROTATION_PITCH_180
-
-# baro
-BARO BMP388 I2C:0:0x76
-# BARO MS56XX SPI:ms5611
 
 define HAL_BARO_ALLOW_INIT_NO_BARO
 
@@ -158,7 +103,7 @@ PB2 GPIO_CAN1_SILENT OUTPUT PUSHPULL SPEED_LOW LOW
 # use DNA
 define HAL_CAN_DEFAULT_NODE_ID 0
 
-define CAN_APP_NODE_NAME "org.ardupilot.birdcandy"
+define CAN_APP_NODE_NAME "org.ardupilot.flyfocus_birdcandy"
 
 define HAL_NO_GCS
 define HAL_NO_LOGGING
